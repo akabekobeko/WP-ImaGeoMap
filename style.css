@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+#imageomap fieldset       { border-style: solid; border-width: 1px; border-color: #aaaaaa; margin:0em 2em 0em 0em; padding:1em; }
+#imageomap legend         { font-weight:bold; font-size:120%; }
+
+.imageomap .map           { margin-bottom:8px; }
+.imageomap td             { border:none; margin:0; padding:0; vertical-align:top; }
+.imageomap .img           { border:none; padding:5px; float:left; width:100px; }
+.imageomap img.thumbnail  { position: relative; left: -5px; top: -5px; padding: 5px; background: #eeeeee; border: 1px solid #999999; margin:0px; display:block; width:100px; }
+.imageomap .shadow        { background: url("images/img-shadow.gif") right bottom; float:left; }
+.imageomap .info          { border:none; margin-left:120px;}
+.imageomap .title         { font-weight:bold; text-align:left; float:left; }
+.imageomap .datetime      { background:none; font-size:70%; text-align: right; }
+.imageomap .detail        { background:none; float:right; margin-left:10px; }
+.imageomap .comment       { margin-left:120px; }
+.imageomap .clear         { clear:both; }
+.imageomap .tooltip       { display:none; background-color:#444444; padding:8px; font-size:80%; color:#fff; z-index:100; width:20em; }
+.imageomap .tooltip table,
+.imageomap .tooltip td,
+.imageomap .tooltip th    { border:none; background:none transparent; margin:0px; padding:0px; }
+.imageomap .tooltip th    { text-align:right; padding-right:4px; }
