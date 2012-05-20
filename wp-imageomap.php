@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: WP-ImaGeoMap
-Plugin URI: http://akabeko.sakura.ne.jp/blog/software/wp-imageomap/
+Plugin URI: http://akabeko.me/blog/software/wp-imageomap/
 Description: Add Google Maps and photos to your posts and pages.
 Version: 1.1.0
 Author: Akabeko
-Author URI: http://akabeko.sakura.ne.jp/
+Author URI: http://akabeko.me/
 */
 
-/*  Copyright 2009 - 2010 Akabeko
+/*  Copyright 2009 - 2012 Akabeko
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
