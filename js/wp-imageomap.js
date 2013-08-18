@@ -354,8 +354,6 @@ var WpImaGeoMapInfo = function( div ) {
         if( marker.datetime != "" ) {
             datetime.text( marker.datetime );
         }
-
-        tooltip.html( createDetailHtml( marker ) );
     };
 
     /**
@@ -409,7 +407,6 @@ var WpImaGeoMapInfo = function( div ) {
         title    = div.find( "div.title" );
         datetime = div.find( "div.datetime" );
         comment  = div.find( "div.comment" );
-        tooltip  = div.find( "div.tooltip" );
     }
 
     var link     = null;
@@ -417,7 +414,6 @@ var WpImaGeoMapInfo = function( div ) {
     var title    = null;
     var datetime = null;
     var comment  = null;
-    var tooltip  = null;
 
     initialize( div );
 };
@@ -803,10 +799,6 @@ var WpImaGeoMapViewer = function() {
                 ++id;
             }
         });
-
-        if( id > 0 ) {
-            $( "img.imagedetail" ).tooltip( { effect: 'slide' } );
-        }
     };
 };
 

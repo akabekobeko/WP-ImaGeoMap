@@ -90,7 +90,6 @@ class WpImaGeoMap
 		// スクリプト ハンドラの登録
 		wp_register_script( "GoogleMap",   $this->googleMapScriptUrl   );
 		wp_register_script( "WpImaGeoMap", $this->mapScriptUrl         );
-		wp_register_script( "jQueryTools", $this->jQueryToolsScriptUrl );
 
 		// アクション ハンドラの登録
 		if( is_admin() )
@@ -342,7 +341,7 @@ HTML;
 	{
 		wp_enqueue_script( "jquery" );
 		wp_enqueue_script( "GoogleMap" );
-		wp_enqueue_script( "jQueryTools" );
+
 		add_filter( "script_loader_src", array( $this,"onWpSriptSrcCleanup" ) );
 	}
 
@@ -399,7 +398,7 @@ HTML;
 <!-- WP-ImaGeoMap -->
 <script type="text/javascript">
 //<![CDATA[
-function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}", text:{title:"{$text[ "Title" ]}",datetime:"{$text[ "DateTime" ]}",address:"{$text[ "Address" ]}",latitude:"{$text[ "Latitude" ]}",longitude:"{$text[ "Longitude" ]}",altitude:"{$text[ "Altitude" ]}"},html:"<div class=\"img\"><span class=\"shadow\"><a class=\"url\" href=\"\" target=\"_blank\"><img class=\"thumbnail\" src=\"\" /></a></span></div><div class=\"info\"><div class=\"title\"></div><div class=\"detail\"><img class=\"imagedetail\" src=\"{$infoImageUrl}\" /><div class=\"tooltip\"></div></div><div class=\"datetime\"></div></div><div class=\"comment\"></div>"}; }
+function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}", text:{title:"{$text[ "Title" ]}",datetime:"{$text[ "DateTime" ]}",address:"{$text[ "Address" ]}",latitude:"{$text[ "Latitude" ]}",longitude:"{$text[ "Longitude" ]}",altitude:"{$text[ "Altitude" ]}"},html:"<div class=\"img\"><span class=\"shadow\"><a class=\"url\" href=\"\" target=\"_blank\"><img class=\"thumbnail\" src=\"\" /></a></span></div><div class=\"info\"><div class=\"title\"></div></div><div class=\"datetime\"></div></div><div class=\"comment\"></div>"}; }
 //]]
 </script>
 <script type="text/javascript" src="{$this->mapScriptUrl}"></script>
