@@ -68,11 +68,6 @@ class WpImaGeoMap
 	private $mapScriptUrl;
 
 	/**
-	 * qTip のスクリプトを示す URL。
-	 */
-	private $jQueryToolsScriptUrl;
-
-	/**
 	 * インスタンスを初期化します。
 	 */
 	public function __construct()
@@ -80,8 +75,7 @@ class WpImaGeoMap
 		$this->pluginDirUrl = WP_PLUGIN_URL . '/' . array_pop( explode( DIRECTORY_SEPARATOR, dirname( __FILE__ ) ) ) . "/";
 		$this->options              = $this->getOption();
 		$this->googleMapScriptUrl   = "http://maps.google.com/maps/api/js?sensor=false";
-		$this->mapScriptUrl         = "{$this->pluginDirUrl}js/wp-imageomap.js";
-		$this->jQueryToolsScriptUrl = "{$this->pluginDirUrl}js/jquery.tools.min.js";
+		$this->mapScriptUrl         = "{$this->pluginDirUrl}wp-imageomap.js";
 
 		// 文字列リソースのテキスト領域を設定
 		$lang = dirname( plugin_basename( __FILE__ ) ) . "/languages";
@@ -354,7 +348,7 @@ HTML;
 	 */
 	public function onWpSriptSrcCleanup( $src )
 	{
-		if( strstr( $src, $this->googleMapScriptUrl ) || strstr( $src, $this->jQueryToolsScriptUrl ) )
+		if( strstr( $src, $this->googleMapScriptUrl ) )
 		{
 			return $this->trimScript( $src );
 		}
