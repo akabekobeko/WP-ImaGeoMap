@@ -1,13 +1,33 @@
 /**
- * @file   wp-imageomap.js
- * @author Akabeko
- * @brief  WP-ImaGeMap の機能を補完する為のスクリプトです。
+ * @fileoverview  Tool script for WP-ImaGeMap.
+ * @author Akabeko ( http://akabeko.me )
  */
 
 ;( function( $ ) {
 
 /**
- * スクリプトのパラメータ。
+ * Get elevation from location.
+ *
+ * @param {Number}   latitude  Latitude.
+ * @param {Number}   longitude Longitude.
+ * @param {Function} callback  A function to be called when the process finishes.
+ */
+function getElevation( latitude, longitude, callback ) {
+    if( !( latitude && longitude && callback ) ) { return; }
+
+    var url = 'http://maps.googleapis.com/maps/api/elevation/json?locations=' + latitude + ',' + longitude + '&sensor=false';
+    $.get( url, null, function( data, status ) {
+        if( data && data.results && data.results.length && data.results.length > 0 ) {
+            callback( data.results[ 0 ].elevation, status );
+        } else {
+            callback( null, status );
+        }
+    } );
+}
+
+/**
+ * Script parameters from article page.
+ * @type {Object}
  */
 var WpImaGeoParams = getWpImaGeoMapParams();
 
@@ -429,7 +449,6 @@ var WpImaGeoMapEditor = function() {
     var selectedMarker    = null;            //! 選択されているマーカー。
     var nextID            = 0;                //! 次に割り当てるマーカーの識別子。
     var exifReader        = null;            //! EXIF 読み込みを行う CGI。
-    var elevationReader   = null;            //! 標高読み込みを行う CGI。
     var form              = null;            //! 編集用フォーム。
 
     /**
@@ -617,7 +636,6 @@ var WpImaGeoMapEditor = function() {
 
         // ツール系 CGI
         exifReader      = WpImaGeoParams.dir + "exif-reader.php";
-        elevationReader = WpImaGeoParams.dir + "elevation-reader.php";
     };
 
     /**
@@ -693,15 +711,16 @@ var WpImaGeoMapEditor = function() {
      * @param marker マーカー。
      */
     function setElevation( marker ) {
-        var target = elevationReader + "?latitude=" + marker.position.lat() + "&longitude=" + marker.position.lng() +  "&callback=?";
-        $.getJSON( target, function( data ) {
-            marker.altitude = data.altitude;
+        getElevation( marker.position.lat(), marker.position.lng(), function( altitude, status ) {
+            if( altitude ) {
+                marker.altitude = altitude;
 
-            // 選択中のマーカーだった場合はフォームも更新する
-            if( isSelected( marker ) ) {
-                form.updateAltitude( marker );
+                // 選択中のマーカーだった場合はフォームも更新する
+                if( isSelected( marker ) ) {
+                    form.updateAltitude( marker );
+                }
             }
-        });
+        } );
     }
 
     /**
