@@ -6,6 +6,12 @@
 ;( function( $ ) {
 
 /**
+ * Script parameters from article page.
+ * @type {Object}
+ */
+var WpImaGeoMapParams = getWpImaGeoMapParams();
+
+/**
  * Get elevation from location.
  *
  * @param {Number}   latitude  Latitude.
@@ -26,83 +32,53 @@ function getElevation( latitude, longitude, callback ) {
 }
 
 /**
- * Script parameters from article page.
- * @type {Object}
- */
-var WpImaGeoParams = getWpImaGeoMapParams();
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * マーカーを表します。
+ * Get normal marker image.
  *
- * @param map  マーカーの追加先となるマップ。
- * @param info マーカー生成用のパラメータ。
+ * @return {Object} Marker image.
  */
-var WpImaGeoMarker = function( map, info ) {
-    /**
-     * マーカーの画像を取得します。
-     *
-     * @return 画像。
-     */
-    var getImageNormal = ( function() {
-        var image = new google.maps.MarkerImage( WpImaGeoParams.dir + "images/marker.png", new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
-        return function(){ return image; };
-    })();
+var markerImageNormal = ( function() {
+    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + "images/marker.png", new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
+    return function() { return image; };
+} )();
 
-    /**
-     * マーカーが選択された時の画像を取得します。
-     *
-     * @return 画像。
-     */
-    var getImageSelect = ( function() {
-        var image = new google.maps.MarkerImage( WpImaGeoParams.dir + "images/marker-select.png", new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
-        return function(){ return image; };
-    })();
+/**
+ * Get selected marker image.
+ *
+ * @return {Object} Marker image.
+ */
+var markerImageSelected = ( function() {
+    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + "images/marker-select.png", new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
+    return function() { return image; };
+} )();
 
-    /**
-     * マーカーが選択された時の画像を取得します。
-     *
-     * @return 画像。
-     */
-    var getImageShadow = ( function() {
-        var image = new google.maps.MarkerImage( WpImaGeoParams.dir + "images/marker-shadow.png", new google.maps.Size( 43, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
-        return function(){ return image; };
-    })();
+/**
+ * Create a marker.
+ *
+ * @param {Number} id     Identifier.
+ * @param {Object} map    Map.
+ * @param {Object} params Parameters defined by the WP-ImaGeoMap plugin ( Article pages JavaScript ).
+ */
+function createMarker( id, map, params ) {
+    if( !params ) { return null; }
 
-    /**
-     * 選択状態が変更された時に発生します。
-     *
-     * @param isSelect 選択状態になった場合は true。それ以外は false。
-     */
-    this.onSelectionChange = function( isSelect ) {
-        this.setIcon( isSelect ? getImageSelect() : getImageNormal() );
-    };
+    var marker = new google.maps.Marker( {
+           position: new google.maps.LatLng( params.latitude, params.longitude ),
+           map:      map,
+           icon:     markerImageNormal(),
+           title:    params.name
+    } );
 
-    // 追加プロパティ
-    this.id        = info.id;
-    this.url       = info.url;
-    this.altitude  = ( info.altitude == undefined ? "" : info.altitude );
-    this.datetime  = ( info.datetime == undefined ? "" : info.datetime );
-    this.address   = ( info.address  == undefined ? "" : info.address  );
-    this.comment   = ( info.comment  == undefined ? "" : info.comment  );
+    marker.id            = id;
+    marker.url           = params.url;
+    marker.altitude      = ( params.altitude == undefined ? "" : params.altitude );
+    marker.datetime      = ( params.datetime == undefined ? "" : params.datetime );
+    marker.address       = ( params.address  == undefined ? "" : params.address  );
+    marker.comment       = ( params.comment  == undefined ? "" : params.comment  );
+    marker.thumbnail     = new Image();
+    marker.thumbnail.src = params.url;
 
-    // 画像の読み込み
-    this.thumbnail = new Image();
-    this.thumbnail.src = info.url;
-
-    // マーカー設定
-    this.title     = info.title;
-    this.draggable = info.draggable;
-    this.position  = info.position;
-    this.icon      = getImageNormal();
-    this.shadow    = getImageShadow();
-
-    // マップに追加
-    this.setMap( map );
-};
-
-// マーカーを継承
-WpImaGeoMarker.prototype = new google.maps.Marker();
+    return marker;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -156,27 +132,15 @@ var WpImaGeoMap = function( params ) {
      */
     function addMarker( infos ) {
         // 一つ目のマーカーを選択する
-        markers[ 0 ] = createMarker( 0, infos[ 0 ] );
-        markers[ 0 ].onSelectionChange( true );
+        markers[ 0 ] = createMarker( 0, map, infos[ 0 ] );
         selectedMarker = markers[ 0 ];
         setEvent( markers[ 0 ] );
         infoTable.update( markers[ 0 ] );
 
         for( var i = 1; i < infos.length; ++i ) {
-            markers[ i ] = createMarker( i, infos[ i ] );
+            markers[ i ] = createMarker( i, map, infos[ i ] );
             setEvent( markers[ i ] );
         }
-    }
-
-    /**
-     * マーカーを生成します。
-     *
-     * @param id   識別子。
-     * @param info マーカー情報。
-     */
-    function createMarker( id, info ) {
-        var latlng = new google.maps.LatLng( info.latitude, info.longitude );
-        return new WpImaGeoMarker( map, { id: id, url: info.url, position:latlng, title: info.name, draggable: false, altitude: info.altitude, datetime: info.datetime, address: info.address, comment: info.comment } );
     }
 
     /**
@@ -185,13 +149,14 @@ var WpImaGeoMap = function( params ) {
      * @param marker マーカー。
      */
     function selectMarker( marker ) {
+        /*
         // 前に選択されていたマーカーを非選択にする
         selectedMarker.onSelectionChange( false );
 
         // 新マーカーを選択
         selectedMarker = marker;
-        marker.onSelectionChange( true );
-        infoTable.update( marker );
+        //marker.onSelectionChange( true );
+        infoTable.update( marker );*/
     }
 
     /**
@@ -238,7 +203,7 @@ var WpImaGeoMapEditorForm = function() {
 
     // 未選択時のサムネイル画像
     noThumbnail = new Image();
-    noThumbnail.src = WpImaGeoParams.dir + "images/noimage.gif";
+    noThumbnail.src = WpImaGeoMapParams.dir + "images/noimage.gif";
 
     /**
      * フォームに入力された設定をマーカーへ取得します。
@@ -368,7 +333,7 @@ var WpImaGeoMapInfo = function( div ) {
         image.src = marker.thumbnail.src;
         link.href= marker.url;
 
-        title.text( marker.title );
+        title.text( marker.getTitle() );
 
         comment.text( marker.comment );
         if( marker.datetime != "" ) {
@@ -412,7 +377,7 @@ var WpImaGeoMapInfo = function( div ) {
      * @return テキスト情報。
      */
     var getResourceText = ( function() {
-        var res = WpImaGeoParams.text;
+        var res = WpImaGeoMapParams.text;
         return function(){ return res; };
     })();
 
@@ -498,7 +463,9 @@ var WpImaGeoMapEditor = function() {
      * @return    作成したマーカー。
      */
     function createMarker( url ) {
-        var marker = new WpImaGeoMarker( map, { id: nextID++, url: url, position:map.getCenter(), title: getName( url ), draggable: true });
+        var latlng = map.getCenter();
+        var maker  = createMarker( nextID++, map, { url:url, latitude:latlng.lat(), longitude:latlng.lng(), name:getName( url ) } );
+        marker.setDraggable( true );
 
         setAddress( marker );
         setElevation( marker );
@@ -516,11 +483,12 @@ var WpImaGeoMapEditor = function() {
      */
     function createMarkerFromExif( exif ) {
         var latlng = exif.latitude == 0 || exif.longitude == 0 ? map.getCenter() : new google.maps.LatLng( exif.latitude, exif.longitude );
-        var marker = new WpImaGeoMarker( map, { id:  nextID++, url: exif.url, position:latlng, title: getName( exif.url ), draggable: true, altitude: exif.altitude, datetime: exif.datetime } );
+        var marker = createMarker( nextID++, map, { url:exif.url, latitude:latlng.lat(), longitude:latlng.lng(), name:getName( exif.url ), altitude:exif.altitude, datetime:exif.datetime } );
+        marker.setDraggable( true );
 
         setAddress( marker );
 
-        if( marker.altitude == null || marker.altitude == "" ) {
+        if( marker.altitude == null || marker.altitude === "" ) {
             setElevation( marker );
         }
 
@@ -635,7 +603,7 @@ var WpImaGeoMapEditor = function() {
         form          = new WpImaGeoMapEditorForm();
 
         // ツール系 CGI
-        exifReader      = WpImaGeoParams.dir + "exif-reader.php";
+        exifReader      = WpImaGeoMapParams.dir + "exif-reader.php";
     };
 
     /**
@@ -807,7 +775,7 @@ var WpImaGeoMapViewer = function() {
      */
     this.initialize = function() {
         var id   = 0;
-        var html = WpImaGeoParams.html;
+        var html = WpImaGeoMapParams.html;
         $( "div.imageomap" ).each( function() {
             var f = window[ "imageomap_get_" + id ];
             if( f != undefined ) {
@@ -822,7 +790,7 @@ var WpImaGeoMapViewer = function() {
 };
 
 //唯一の WpImaGeoMap インスタンスを生成
-var wpImaGeoMap = ( WpImaGeoParams.mode == "edit" ? new WpImaGeoMapEditor() : new WpImaGeoMapViewer() );
+var wpImaGeoMap = ( WpImaGeoMapParams.mode == "edit" ? new WpImaGeoMapEditor() : new WpImaGeoMapViewer() );
 
 $( document ).ready( function() {
     wpImaGeoMap.initialize();
