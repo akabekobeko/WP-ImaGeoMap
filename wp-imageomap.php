@@ -392,7 +392,7 @@ HTML;
 <!-- WP-ImaGeoMap -->
 <script type="text/javascript">
 //<![CDATA[
-function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}", text:{title:"{$text[ "Title" ]}",datetime:"{$text[ "DateTime" ]}",address:"{$text[ "Address" ]}",latitude:"{$text[ "Latitude" ]}",longitude:"{$text[ "Longitude" ]}",altitude:"{$text[ "Altitude" ]}"},html:"<div class=\"img\"><span class=\"shadow\"><a class=\"url\" href=\"\" target=\"_blank\"><img class=\"thumbnail\" src=\"\" /></a></span></div><div class=\"info\"><div class=\"title\"></div></div><div class=\"datetime\"></div></div><div class=\"comment\"></div>"}; }
+function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}", text:{title:"{$text[ "Title" ]}",datetime:"{$text[ "DateTime" ]}",address:"{$text[ "Address" ]}",latitude:"{$text[ "Latitude" ]}",longitude:"{$text[ "Longitude" ]}",altitude:"{$text[ "Altitude" ]}"}}; }
 //]]
 </script>
 <script type="text/javascript" src="{$this->mapScriptUrl}"></script>

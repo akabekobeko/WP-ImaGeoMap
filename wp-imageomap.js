@@ -4,6 +4,8 @@
  */
 
 ;( function( $ ) {
+// Check jQuery ( Required )
+if( !( $ ) ) { return; }
 
 /**
  * Script parameters from article page.
@@ -80,6 +82,39 @@ function createMarker( id, map, params ) {
     return marker;
 }
 
+/**
+ * Create an area to display the information of the marker that is selected.
+ */
+function createMarkerInfoArea() {
+    function createInfoArea() {
+        return $( '<div>' )
+            .append( $( '<div>' ).addClass( 'thumbnail' )
+                .append( $( '<a>' ).attr( { 'target':'_blank' } )
+                    .append( $( '<img>' ) )
+                )
+            )
+            .append( $( '<div>' ).addClass( 'info' )
+                .append( $( '<div>' ).addClass( 'title'    ) )
+                .append( $( '<div>' ).addClass( 'datetime' ) )
+                .append( $( '<div>' ).addClass( 'clear' ) )
+                .append( $( '<div>' ).addClass( 'comment' ) )
+            );
+    }
+
+    var div = createInfoArea();
+    return {
+        div: div,
+        update:   function( marker ) {
+            console.log(marker);
+            div.find( '.thumbnail a'   ).attr( { 'href': marker.url } );
+            div.find( '.thumbnail img' ).attr( { 'src': marker.thumbnail.src } );
+            div.find( '.title'         ).text( marker.getTitle() );
+            div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
+            div.find( '.comment'       ).text( marker.comment );
+        }
+    };
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
  * マップを表します。
@@ -105,7 +140,8 @@ var WpImaGeoMap = function( params ) {
     /**
      * マーカーの持つ情報を書き出す table。
      */
-    var infoTable = new WpImaGeoMapInfo( params.div );
+    var infoArea = createMarkerInfoArea();
+    params.div.append( infoArea.div );
 
     /**
      * マップ上のマーカー間を結ぶ線を引きます。
@@ -135,7 +171,7 @@ var WpImaGeoMap = function( params ) {
         markers[ 0 ] = createMarker( 0, map, infos[ 0 ] );
         selectedMarker = markers[ 0 ];
         setEvent( markers[ 0 ] );
-        infoTable.update( markers[ 0 ] );
+        infoArea.update( markers[ 0 ] );
 
         for( var i = 1; i < infos.length; ++i ) {
             markers[ i ] = createMarker( i, map, infos[ i ] );
@@ -312,95 +348,6 @@ var WpImaGeoMapEditorForm = function() {
     // 初期状態の設定
     disableAll();
     thumbnail.src   = noThumbnail.src;
-};
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * 画像の情報を表示する領域を表します。
- * このクラスは表示領域を操作する為のハンドラとなります。
- * 領域中の各要素を毎回検索すると非効率なので、インスタンス生成時に一度だけ検索を行い、
- * 以降の操作はキャッシュされた要素に対して行われます。
- *
- * @param id マップ領域。
- */
-var WpImaGeoMapInfo = function( div ) {
-    /**
-     * マーカーの情報を元にテーブルを更新します。
-     *
-     * @param    marker    マーカー。
-     */
-    this.update = function( marker ) {
-        image.src = marker.thumbnail.src;
-        link.href= marker.url;
-
-        title.text( marker.getTitle() );
-
-        comment.text( marker.comment );
-        if( marker.datetime != "" ) {
-            datetime.text( marker.datetime );
-        }
-    };
-
-    /**
-     * 詳細情報のツールチップに表示される HTML を生成します。
-     *
-     * @param marker マーカー。
-     *
-     * @return テキスト。
-     */
-    function createDetailHtml( marker ) {
-        var res = getResourceText();
-
-        var text = "<table><tbody><tr><th nowrap=\"nowrap\">" + res.title + "</th><td>" + marker.title + "</td></tr>";
-
-        if( marker.datetime != "" ) {
-            text += "<tr><th nowrap=\"nowrap\">" + res.datetime + "</th><td>" + marker.datetime + "</td></tr>";
-        }
-
-        if( marker.address != "" ) {
-            text += "<tr><th nowrap=\"nowrap\">" + res.address + "</th><td>" + marker.address + "</td></tr>";
-        }
-
-        text += "<tr><th nowrap=\"nowrap\">" + res.latitude + "</th><td>" + marker.position.lat() + "</td></tr><tr><th nowrap=\"nowrap\">" + res.longitude + "</th><td>" + marker.position.lng() + "</td></tr>";
-
-        if( marker.altitude != "" && marker.altitude != "0m" ) {
-            text += "<tr><th nowrap=\"nowrap\">" + res.altitude + "</th><td>" + marker.altitude + "</td></tr>";
-        }
-
-        text += "</tbody></table>";
-        return text;
-    }
-
-    /**
-     * 詳細情報のタイトルに使用するテキストを取得します。
-     *
-     * @return テキスト情報。
-     */
-    var getResourceText = ( function() {
-        var res = WpImaGeoMapParams.text;
-        return function(){ return res; };
-    })();
-
-    /**
-     * インスタンスを初期化します。
-     *
-     * @param id テーブルの識別子。
-     */
-    function initialize( div ) {
-        link     = div.find( "a.url" )[ 0 ];
-        image    = div.find( "img.thumbnail" )[ 0 ];
-        title    = div.find( "div.title" );
-        datetime = div.find( "div.datetime" );
-        comment  = div.find( "div.comment" );
-    }
-
-    var link     = null;
-    var image    = null;
-    var title    = null;
-    var datetime = null;
-    var comment  = null;
-
-    initialize( div );
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -775,13 +722,14 @@ var WpImaGeoMapViewer = function() {
      */
     this.initialize = function() {
         var id   = 0;
-        var html = WpImaGeoMapParams.html;
+        //var html = WpImaGeoMapParams.html;
+        
         $( "div.imageomap" ).each( function() {
             var f = window[ "imageomap_get_" + id ];
             if( f != undefined ) {
                 var info = f();
-                $( this ).append( "<div id=\"imageomap_canvas_" + id + "\" class=\"map\" style=\"width:" + info.width + ";height:" + info.height + "\"></div>" + html );
-                maps[ id ] = new WpImaGeoMap( { id: id, div: $( this ), map: info.map, markers: info.markers, line: info.line } );
+                $( this ).append( $( '<div>' ).attr( { 'id':'imageomap_canvas_' + id, 'class':'map' } ).css( { width:info.width, height:info.height } ) );
+                maps[ id ] = new WpImaGeoMap( { id:id, div:$( this ), map:info.map, markers:info.markers, line:info.line } );
 
                 ++id;
             }
