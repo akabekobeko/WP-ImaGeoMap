@@ -72,7 +72,7 @@ class WpImaGeoMap
 	 */
 	public function __construct()
 	{
-		$this->pluginDirUrl = WP_PLUGIN_URL . '/' . array_pop( explode( DIRECTORY_SEPARATOR, dirname( __FILE__ ) ) ) . "/";
+		$this->pluginDirUrl         = $this->getPluginDirURL();
 		$this->options              = $this->getOption();
 		$this->googleMapScriptUrl   = "http://maps.google.com/maps/api/js?sensor=false";
 		$this->mapScriptUrl         = "{$this->pluginDirUrl}wp-imageomap.js";
@@ -107,6 +107,18 @@ class WpImaGeoMap
 		// ショートコード ハンドラの登録
 		add_shortcode( "imageomap", array( &$this, "onShortCode" ) );
 	}
+
+    /**
+      * Get the URL of this plug-in.
+      *
+      * @return URL.
+      */
+    private function getPluginDirURL()
+    {
+        $dirs = explode( DIRECTORY_SEPARATOR, dirname( __FILE__ ) );
+        $dir  = array_pop( $dirs ) . "/";
+        return  WP_PLUGIN_URL . '/' . $dir;
+    }
 
 	/**
 	 * プラグインの設定を取得します。
@@ -414,7 +426,7 @@ HTML;
 }
 
 // プラグインのインスタンス生成
-if( class_exists( WpImaGeoMap ) )
+if( class_exists( 'WpImaGeoMap' ) )
 {
 	$wpImaGeoMap = new WpImaGeoMap();
 
@@ -448,14 +460,14 @@ if( class_exists( WpImaGeoMap ) )
 }
 
 // アンインストール時のハンドラ登録
-if( function_exists( register_uninstall_hook ) )
+if( function_exists( 'register_uninstall_hook' ) )
 {
 	/**
 	 * プラグインのアンインストールが行われる時に発生します。
 	 */
 	function onWpImaGeoMapUninstall()
 	{
-		if( class_exists( WpImaGeoMap ) )
+		if( class_exists( 'WpImaGeoMap' ) )
 		{
 			delete_option( WpImaGeoMap::OPTION_NAME );
 		}
