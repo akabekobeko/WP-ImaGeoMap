@@ -84,139 +84,127 @@ function createMarker( id, map, params ) {
 
 /**
  * Create an area to display the information of the marker that is selected.
+ *
+ * @param {Object} owner Owner jQuery object.
  */
-function createMarkerInfoArea() {
+function createMarkerInfoArea( owner ) {
     function createInfoArea() {
         return $( '<div>' )
             .append( $( '<div>' ).addClass( 'thumbnail' )
-                .append( $( '<a>' ).attr( { 'target':'_blank' } )
+                .append( $( '<a>' ).attr( { 'target': '_blank' } )
                     .append( $( '<img>' ) )
                 )
             )
             .append( $( '<div>' ).addClass( 'info' )
                 .append( $( '<div>' ).addClass( 'title'    ) )
                 .append( $( '<div>' ).addClass( 'datetime' ) )
-                .append( $( '<div>' ).addClass( 'clear' ) )
-                .append( $( '<div>' ).addClass( 'comment' ) )
-            );
+                .append( $( '<div>' ).addClass( 'clear'    ) )
+                .append( $( '<div>' ).addClass( 'comment'  ) )
+            )
+            .append( $( '<div>' ).addClass( 'clear' ) );
     }
 
-    var div = createInfoArea();
-    return {
-        div: div,
-        update:   function( marker ) {
-            console.log(marker);
-            div.find( '.thumbnail a'   ).attr( { 'href': marker.url } );
-            div.find( '.thumbnail img' ).attr( { 'src': marker.thumbnail.src } );
-            div.find( '.title'         ).text( marker.getTitle() );
-            div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
-            div.find( '.comment'       ).text( marker.comment );
+    var infoArea = {
+        div: createInfoArea(),
+        update: function( marker ) {
+            this.div.find( '.thumbnail a'   ).attr( { 'href': marker.url } );
+            this.div.find( '.thumbnail img' ).attr( { 'src': marker.thumbnail.src } );
+            this.div.find( '.title'         ).text( marker.getTitle() );
+            this.div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
+            this.div.find( '.comment'       ).text( marker.comment );
         }
     };
+
+    owner.append( infoArea.div );
+    return infoArea;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * マップを表します。
- *
- * @param params パラメータ。
+ * Create a maps for articles.
  */
-var WpImaGeoMap = function( params ) {
+function createMaps() {
     /**
-     * マップ。
-     */
-    var map = new google.maps.Map( params.div.find( "#imageomap_canvas_" + params.id )[ 0 ], { zoom: params.map[ "zoom" ], center: new google.maps.LatLng( params.map[ "latitude" ], params.map[ "longitude" ] ), mapTypeId: google.maps.MapTypeId.ROADMAP, scaleControl: true } );
-
-    /**
-     * マーカーのコレクション。
-     */
-    var markers = new Array();
-
-    /**
-     * 選択されているマーカー。
-     */
-    var selectedMarker = null;
-
-    /**
-     * マーカーの持つ情報を書き出す table。
-     */
-    var infoArea = createMarkerInfoArea();
-    params.div.append( infoArea.div );
-
-    /**
-     * マップ上のマーカー間を結ぶ線を引きます。
+     * Create a map for article.
      *
-     * @param count マーカーの総数。
+     * @param {Object} params Map parameters.
      */
-    function addLine( count ) {
-        // マーカーが単体の場合は何もしない
-        if( count < 2 ) { return; }
+    function createMap( params ) {
+        var map = new google.maps.Map( params.div.find( "#imageomap_canvas_" + params.id )[ 0 ], { zoom: params.map[ "zoom" ], center: new google.maps.LatLng( params.map[ "latitude" ], params.map[ "longitude" ] ), mapTypeId: google.maps.MapTypeId.ROADMAP, scaleControl: true } );
 
-        var path = new Array();
-        for( var i = 0; i < count; ++i ) {
-            path[ i ] = markers[ i ].position;
-        }
+        var infoArea = createMarkerInfoArea( params.div );
 
-        var line = new google.maps.Polyline( { path: path, strokeColor: "#0000ff", strokeOpacity: 0.5, strokeWeight: 5 } );
-        line.setMap( map );
-    }
+        var selectedMarker = null;
 
-    /**
-     * マーカーを追加します。
-     *
-     * @param infos 追加するマーカー情報のコレクション。
-     */
-    function addMarker( infos ) {
-        // 一つ目のマーカーを選択する
-        markers[ 0 ] = createMarker( 0, map, infos[ 0 ] );
-        selectedMarker = markers[ 0 ];
-        setEvent( markers[ 0 ] );
-        infoArea.update( markers[ 0 ] );
-
-        for( var i = 1; i < infos.length; ++i ) {
-            markers[ i ] = createMarker( i, map, infos[ i ] );
-            setEvent( markers[ i ] );
-        }
-    }
-
-    /**
-     * マーカーを選択状態にします。
-     *
-     * @param marker マーカー。
-     */
-    function selectMarker( marker ) {
-        /*
-        // 前に選択されていたマーカーを非選択にする
-        selectedMarker.onSelectionChange( false );
-
-        // 新マーカーを選択
-        selectedMarker = marker;
-        //marker.onSelectionChange( true );
-        infoTable.update( marker );*/
-    }
-
-    /**
-     * マーカーのイベントを設定します。
-     *
-     * @param marker マーカー。
-     */
-    function setEvent( marker ) {
-        // 選択
-        google.maps.event.addListener( marker, 'click', function() {
-            if( selectedMarker.id != marker.id ) {
-                selectMarker( marker );
+        /**
+         * To update the display by selecting the marker.
+         *
+         * @param {Object} marker Marker.
+         */
+        function selectMarker( marker ) {
+            if( selectedMarker ) {
+                selectedMarker.setIcon( markerImageNormal() );
             }
-        });
+
+            selectedMarker = marker;
+            selectedMarker.setIcon( markerImageSelected() );
+            infoArea.update( selectedMarker );
+        }
+
+        // Create a markers
+        var markers = new Array();
+        ( function( infos ) {
+            if( !( infos && infos.length && infos.length > 0 ) ) { return; }
+
+            function setMarkerEvent( marker ) {
+                google.maps.event.addListener( marker, 'click', function() {
+                    if( selectedMarker != marker ) {
+                        selectMarker( marker );
+                    }
+                } );
+            }
+
+            for( var markerId = 0, max = infos.length; markerId < max; ++markerId ) {
+                markers[ markerId ] = createMarker( markerId, map, infos[ markerId ] );
+                setMarkerEvent( markers[ markerId ] );
+            }
+
+            // Select first marker
+            selectMarker( markers[ 0 ] );
+        } )( params.markers );
+
+        // Create a lines
+        ( function( lines ) {
+            if( !( lines && lines.length && lines.length > 1 ) ) { return; }
+
+            var max = Math.min( markers.length, lines.length );
+            if( max < 2 ) { return; }
+
+            var path = new Array();
+            for( var i = 0; i < max; ++i ) {
+                path[ i ] = markers[ i ].position;
+            }
+
+            var line = new google.maps.Polyline( { path: path, strokeColor: "#0000ff", strokeOpacity: 0.5, strokeWeight: 5 } );
+            line.setMap( map );
+        } )( params.lines );
     }
 
-    // マーカー生成
-    addMarker( params.markers );
+    // Create a maps
+    ( function() {
+        var maps   = new Array();
+        var nextId = 0;
 
-    // マーカー間のライン生成
-    if( params.line == "line" ) {
-        addLine( params.markers.length );
-    }
-};
+        $( 'div.imageomap' ).each( function() {
+            var func = window[ 'imageomap_get_' + nextId ];
+            if( func ) {
+                var info = func();
+                $( this ).append( $( '<div>' ).attr( { 'id':'imageomap_canvas_' + nextId, 'class':'map' } ).css( { width:info.width, height:info.height } ) );
+                maps[ nextId ] = createMap( { id: nextId, div: $( this ), map: info.map, markers: info.markers, lines: info.line } );
+                ++nextId;
+            }
+        } );
+    } )();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -707,41 +695,17 @@ var WpImaGeoMapEditor = function() {
     };
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/**
- * マップ表示機能を提供します。
- */
-var WpImaGeoMapViewer = function() {
-    /**
-     * マップのコレクション。
-     */
-    var maps = new Array();
-
-    /**
-     * インスタンスを初期化します。
-     */
-    this.initialize = function() {
-        var id   = 0;
-        //var html = WpImaGeoMapParams.html;
-        
-        $( "div.imageomap" ).each( function() {
-            var f = window[ "imageomap_get_" + id ];
-            if( f != undefined ) {
-                var info = f();
-                $( this ).append( $( '<div>' ).attr( { 'id':'imageomap_canvas_' + id, 'class':'map' } ).css( { width:info.width, height:info.height } ) );
-                maps[ id ] = new WpImaGeoMap( { id:id, div:$( this ), map:info.map, markers:info.markers, line:info.line } );
-
-                ++id;
-            }
-        });
-    };
-};
-
-//唯一の WpImaGeoMap インスタンスを生成
-var wpImaGeoMap = ( WpImaGeoMapParams.mode == "edit" ? new WpImaGeoMapEditor() : new WpImaGeoMapViewer() );
-
+// Initialize
 $( document ).ready( function() {
-    wpImaGeoMap.initialize();
+    if( WpImaGeoMapParams.mode == 'edit' ) {
+        var wpImaGeoMap =  new WpImaGeoMapEditor();
+        wpImaGeoMap.initialize();
+
+    } else {
+        createMaps();
+    }
+
 } );
 
+// End of script scope
 } )( jQuery );
