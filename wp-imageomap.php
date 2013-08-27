@@ -162,12 +162,11 @@ class WpImaGeoMap
 	}
 
 	/**
-	 * 管理画面が設定される時に発生します。
+	 * It runs after the basic admin panel menu structure is in place.
 	 */
 	public function onAdminMenu()
 	{
-		// オプションページの追加
-		add_options_page( __( "WP-ImaGeoMap Option", WpImaGeoMap::TEXT_DOMAIN ), "WP-ImaGeoMap", 8, basename(__FILE__), array( &$this, "onOptionPage" ) ) ;
+		add_options_page( __( 'WP-ImaGeoMap Option', WpImaGeoMap::TEXT_DOMAIN ), 'WP-ImaGeoMap', 'level_8', basename( __FILE__ ), array( &$this, 'onOptionPage' ) ) ;
 	}
 
 	/**
