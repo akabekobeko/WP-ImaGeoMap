@@ -189,9 +189,9 @@ class WpImaGeoMap
 <form name="url_editor">
     <div id="imageomap_editor_canvas" style="width:100%; height:350px;"></div>
     <p class="submit" style="margin:4px 0px 4px 0px; padding:0px;">
-        <input type="button" value="<?php _e( "Add Image", WpImaGeoMap::TEXT_DOMAIN ); ?>" onclick="javascript:wpImaGeoMap.addMarker()" />
-        <input type="button" value="<?php _e( "Show Marker", WpImaGeoMap::TEXT_DOMAIN ); ?>" onclick="javascript:wpImaGeoMap.showMarker()" />
-        <input type="button" value="<?php _e( "Delete Marker", WpImaGeoMap::TEXT_DOMAIN ); ?>" onclick="javascript:wpImaGeoMap.removeMarker()" />
+        <input type="button" value="<?php _e( "Add Image", WpImaGeoMap::TEXT_DOMAIN ); ?>" id="imageomap_editor_add_image_button" />
+        <input type="button" value="<?php _e( "Show Marker", WpImaGeoMap::TEXT_DOMAIN ); ?>" id="imageomap_editor_show_marker_button" />
+        <input type="button" value="<?php _e( "Delete Marker", WpImaGeoMap::TEXT_DOMAIN ); ?>" id="imageomap_editor_delete_marker_button" />
     </p>
     <div class="imageomap">
         <div class="img"><span class="shadow"><img id="thumbnail" class="thumbnail" width="100px" height="80px" /></span></div>
@@ -219,7 +219,7 @@ class WpImaGeoMap
     </div>
     <input type="checkbox" id="is_read_exif" checked="checked" /><?php _e( "EXIF information is read from the image.", WpImaGeoMap::TEXT_DOMAIN ); ?>
     <p>
-        <input type="button" class="button-primary" value="<?php _e( "Insert into Post", WpImaGeoMap::TEXT_DOMAIN ); ?>" onclick="javascript:wpImaGeoMap.onClickSubmitButton()" />
+        <input type="button" class="button-primary" value="<?php _e( "Insert into Post", WpImaGeoMap::TEXT_DOMAIN ); ?>" id="imageomap_editor_submit_button" />
     </p>
 </form>
 <?php
