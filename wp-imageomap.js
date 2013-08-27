@@ -83,43 +83,6 @@ function createMarker( id, map, params ) {
 }
 
 /**
- * Create an area to display the information of the marker that is selected.
- *
- * @param {Object} owner Owner jQuery object.
- */
-function createMarkerInfoArea( owner ) {
-    function createInfoArea() {
-        return $( '<div>' )
-            .append( $( '<div>' ).addClass( 'thumbnail' )
-                .append( $( '<a>' ).attr( { 'target': '_blank' } )
-                    .append( $( '<img>' ) )
-                )
-            )
-            .append( $( '<div>' ).addClass( 'info' )
-                .append( $( '<div>' ).addClass( 'title'    ) )
-                .append( $( '<div>' ).addClass( 'datetime' ) )
-                .append( $( '<div>' ).addClass( 'clear'    ) )
-                .append( $( '<div>' ).addClass( 'comment'  ) )
-            )
-            .append( $( '<div>' ).addClass( 'clear' ) );
-    }
-
-    var infoArea = {
-        div: createInfoArea(),
-        update: function( marker ) {
-            this.div.find( '.thumbnail a'   ).attr( { 'href': marker.url } );
-            this.div.find( '.thumbnail img' ).attr( { 'src': marker.thumbnail.src } );
-            this.div.find( '.title'         ).text( marker.getTitle() );
-            this.div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
-            this.div.find( '.comment'       ).text( marker.comment );
-        }
-    };
-
-    owner.append( infoArea.div );
-    return infoArea;
-}
-
-/**
  * Create a maps for articles.
  */
 function createMaps() {
@@ -129,9 +92,40 @@ function createMaps() {
      * @param {Object} params Map parameters.
      */
     function createMap( params ) {
-        var map = new google.maps.Map( params.div.find( "#imageomap_canvas_" + params.id )[ 0 ], { zoom: params.map[ "zoom" ], center: new google.maps.LatLng( params.map[ "latitude" ], params.map[ "longitude" ] ), mapTypeId: google.maps.MapTypeId.ROADMAP, scaleControl: true } );
+        var map = new google.maps.Map( params.div.find( '#imageomap_canvas_' + params.id )[ 0 ], { zoom: params.map.zoom, center: new google.maps.LatLng( params.map.latitude, params.map.longitude ), mapTypeId: google.maps.MapTypeId.ROADMAP, scaleControl: true } );
 
-        var infoArea = createMarkerInfoArea( params.div );
+        // Information area
+        var infoArea = null;
+        ( function( owner ) {
+            function createInfoArea() {
+                return $( '<div>' )
+                    .append( $( '<div>' ).addClass( 'thumbnail' )
+                        .append( $( '<a>' ).attr( { 'target': '_blank' } )
+                            .append( $( '<img>' ) )
+                        )
+                    )
+                    .append( $( '<div>' ).addClass( 'info' )
+                        .append( $( '<div>' ).addClass( 'title'    ) )
+                        .append( $( '<div>' ).addClass( 'datetime' ) )
+                        .append( $( '<div>' ).addClass( 'clear'    ) )
+                        .append( $( '<div>' ).addClass( 'comment'  ) )
+                    )
+                    .append( $( '<div>' ).addClass( 'clear' ) );
+            }
+        
+            infoArea = {
+                div: createInfoArea(),
+                update: function( marker ) {
+                    this.div.find( '.thumbnail a'   ).attr( { 'href': marker.url } );
+                    this.div.find( '.thumbnail img' ).attr( { 'src': marker.thumbnail.src } );
+                    this.div.find( '.title'         ).text( marker.getTitle() );
+                    this.div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
+                    this.div.find( '.comment'       ).text( marker.comment );
+                }
+            };
+        
+            owner.append( infoArea.div );
+        } )( params.div );
 
         var selectedMarker = null;
 
@@ -184,7 +178,7 @@ function createMaps() {
                 path[ i ] = markers[ i ].position;
             }
 
-            var line = new google.maps.Polyline( { path: path, strokeColor: "#0000ff", strokeOpacity: 0.5, strokeWeight: 5 } );
+            var line = new google.maps.Polyline( { path: path, strokeColor: '#0000ff', strokeOpacity: 0.5, strokeWeight: 5 } );
             line.setMap( map );
         } )( params.lines );
     }
@@ -198,7 +192,7 @@ function createMaps() {
             var func = window[ 'imageomap_get_' + nextId ];
             if( func ) {
                 var info = func();
-                $( this ).append( $( '<div>' ).attr( { 'id':'imageomap_canvas_' + nextId, 'class':'map' } ).css( { width:info.width, height:info.height } ) );
+                $( this ).append( $( '<div>' ).attr( { 'id': 'imageomap_canvas_' + nextId, 'class': 'map' } ).css( { width: info.width, height: info.height } ) );
                 maps[ nextId ] = createMap( { id: nextId, div: $( this ), map: info.map, markers: info.markers, lines: info.line } );
                 ++nextId;
             }
