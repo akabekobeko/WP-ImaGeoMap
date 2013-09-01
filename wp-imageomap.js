@@ -240,7 +240,6 @@ function createMapEditor() {
             geo.geocode( { latLng: marker.position }, function( results, status ) {
                 if( results && results[ 0 ] ) {
                     marker.address = results[ 0 ].formatted_address;
-    
                     if( isSelected( marker ) ) {
                         markerEditForm.updateAddress( marker );
                     }
@@ -266,13 +265,13 @@ function createMapEditor() {
                     selectMarker( marker );
                 }
             });
-    
+
             google.maps.event.addListener( marker, 'dragstart', function() {
                 if( !isSelected( marker ) ) {
                     selectMarker( marker );
                 }
             });
-    
+
             google.maps.event.addListener( marker, 'dragend', function() {
                 setAddress( marker );
                 setElevation( marker );
@@ -294,7 +293,7 @@ function createMapEditor() {
 
         function createNewMarkerFromExif( exif ) {
             var latlng = exif.latitude == 0 || exif.longitude == 0 ? map.getCenter() : new google.maps.LatLng( exif.latitude, exif.longitude );
-            var marker = createMarker( markerNextId++, map, { url:exif.url, latitude:latlng.lat(), longitude:latlng.lng(), name:getName( exif.url ), altitude:exif.altitude, datetime:exif.datetime } );
+            var marker = createMarker( markerNextId++, map, { url:exif.url, latitude:latlng.lat(), longitude:latlng.lng(), name:getFileNameFromUrl( exif.url ), altitude:exif.altitude, datetime:exif.datetime } );
 
             marker.setDraggable( true );
             setAddress( marker );
@@ -356,6 +355,7 @@ function createMapEditor() {
         selectedMarker = marker;
         selectedMarker.setIcon( markerImageSelected() );
         markerEditForm.selectMarker( marker );
+        map.setCenter( selectedMarker.position );
     }
 
     /**
