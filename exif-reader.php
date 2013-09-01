@@ -1,7 +1,6 @@
 <?php
 
-require_once( "php-calender-patch.php" );
-require_once( "pel/PelJpeg.php"        );
+require_once( 'pel/src/PelJpeg.php'        );
 
 /**
  * EXIF 情報の読み取り機能を提供します。
@@ -19,10 +18,10 @@ class ExifReader
 	{
 		$numerator   = ( double )$fraction[ 0 ];
 		$denominator = ( double )$fraction[ 1 ];
-
+../../../../../../../../../Applications/MAMP/htdocs/blog/wp-content/plugins/test-edit.html
 		return ( $numerator / $denominator );
 	}
-
+../../../../../../../../../Applications/MAMP/htdocs/blog/wp-content/plugins/test-edit.html
 	/**
 	 * EXIF の GPS 情報から GeoTag を取得する。
 	 *

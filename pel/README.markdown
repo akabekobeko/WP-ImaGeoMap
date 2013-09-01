@@ -1,3 +1,8 @@
+PEL: PHP Exif Library
+=====================
+
+[![Build Status](https://secure.travis-ci.org/lsolesen/pel.png?branch=master)](http://travis-ci.org/lsolesen/pel)
+
 README file for PEL: PHP Exif Library.  A library with support for
 reading and writing Exif headers in JPEG and TIFF images using PHP.
 
