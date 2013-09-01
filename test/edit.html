@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>編集テスト</title>
+    <link rel="stylesheet" href="../style.css" type="text/css" media="all" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <style>
+    <!--
+    #content { width: 800px; }
+    -->
+    </style>
+</head>
+<body>
+<h1>編集テスト</h1>
+<div id="content">
+
+<form name="url_editor">
+    <div id="imageomap_editor_canvas" style="width:100%; height:350px;"></div>
+    <p class="submit" style="margin:4px 0px 4px 0px; padding:0px;">
+        <input type="button" value="Add Image" id="imageomap_editor_add_image_button" />
+        <input type="button" value="Show Marker" id="imageomap_editor_show_marker_button" />
+        <input type="button" value="Delete Marker" id="imageomap_editor_delete_marker_button" />
+    </p>
+    <div class="imageomap">
+        <div class="thumbnail"><img id="thumbnail" /></div>
+        <div class="info">
+            <table>
+                <tbody>
+                    <tr>
+                        <td nowrap="nowrap">Name : </td><td><input type="text" id="marker_title" style="width:120px;" /></td>
+                        <td nowrap="nowrap">Image : </td><td colspan="4"><input type="text" name="marker_url" id="marker_url" style="width:240px;" /></td>
+                    </tr>
+                    <tr>
+                        <td nowrap="nowrap">DateTime : </td><td><input type="text" id="marker_datetime" style="width:120px;" /></td>
+                        <td nowrap="nowrap">Address : </td><td colspan="4"><input type="text" id="marker_address" style="width:240px;" /></td>
+                    </tr>
+                    <tr>
+                        <td nowrap="nowrap">Latitude : </td><td><input type="text" id="marker_latitude" style="width:120px;" /></td>
+                        <td nowrap="nowrap">Longitude : </td><td><input type="text" id="marker_longitude" style="width:120px;" /></td>
+                        <td nowrap="nowrap">Altitude : </td><td><input type="text" id="marker_altitude" style="width:60px;" /></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <textarea id="marker_comment" rows="3" style="width:600px;" ></textarea>
+    </div>
+    <input type="checkbox" id="is_read_exif" checked="checked" />EXIF information is read from the image.
+    <p>
+        <input type="button" class="button-primary" value="Insert into Post" id="imageomap_editor_submit_button" />
+    </p>
+</form>
+
+
+
+
+</div> <!-- #content -->
+<!-- WP-ImaGeoMap -->
+<script type="text/javascript">
+//<![CDATA[
+function getWpImaGeoMapParams(){return{mode:"edit",dir:"../", text:{title:"題名 : ",datetime:"日時 : ",address:"住所 : ",latitude:"緯度 : ",longitude:"経度 : ",altitude:"標高 : "},html:"<div class=\"img\"><span class=\"shadow\"><a class=\"url\" href=\"\" target=\"_blank\"><img class=\"thumbnail\" src=\"\" /></a></span></div><div class=\"info\"><div class=\"title\"></div><div class=\"datetime\"></div></div><div class=\"comment\"></div>"}; }
+//]]
+</script>
+<script src="../wp-imageomap.js"></script>
+</body>
+</html>

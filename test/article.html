@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>記事テスト</title>
+    <link rel="stylesheet" href="../style.css" type="text/css" media="all" />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <style>
+    <!--
+    #content { width: 640px; }
+    -->
+    </style>
+</head>
+<body>
+<h1>記事テスト</h1>
+<div id="content">
+
+<div class="imageomap">
+<script type="text/javascript">
+//<![CDATA[
+function imageomap_get_0() {
+    var map = {zoom:18,latitude:34.81683810872084,longitude:139.06673836661542};
+    var m = [
+    { name:"ワニ軍団",
+      url:"img-01.JPG",
+      latitude:34.8161378558,
+      longitude:139.067923903,
+      altitude:"66m",
+      datetime:"2008/09/27 14:18:02",
+      address:"日本県道113号線",
+      comment:"彼らはあまりに動かないので、初めは模型展示なのかとガッカリした。しかし目をこらすと、緩慢ながらも蠢いている事が分かってヒヤッとした。"}
+      ,
+      {name:"植物園から見たワニ園",url:"img-02.JPG",latitude:34.8168755436,longitude:139.068189442,altitude:"54m",datetime:"2008/09/27 14:45:29",address:"日本県道113号線",comment:"植物園の高台になっていて、外側の階段からワニ園を一望できる。写真奥のトンネルは線路。ワニ園の最寄り駅は伊豆熱川駅となる。"}
+      ];
+      return { map: map, markers: m, line:"line", width:"100%", height:"350px" };
+}
+//]]
+</script>
+</div>
+
+<!-- WP-ImaGeoMap -->
+<script type="text/javascript">
+//<![CDATA[
+function getWpImaGeoMapParams(){return{mode:"normal",dir:"../", text:{title:"題名 : ",datetime:"日時 : ",address:"住所 : ",latitude:"緯度 : ",longitude:"経度 : ",altitude:"標高 : "},html:"<div class=\"img\"><span class=\"shadow\"><a class=\"url\" href=\"\" target=\"_blank\"><img class=\"thumbnail\" src=\"\" /></a></span></div><div class=\"info\"><div class=\"title\"></div><div class=\"datetime\"></div></div><div class=\"comment\"></div>"}; }
+//]]
+</script>
+<script src="../wp-imageomap.js"></script>
+
+</div> <!-- #content -->
+</body>
+</html>

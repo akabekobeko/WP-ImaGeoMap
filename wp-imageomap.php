@@ -194,7 +194,7 @@ class WpImaGeoMap
         <input type="button" value="<?php _e( "Delete Marker", WpImaGeoMap::TEXT_DOMAIN ); ?>" id="imageomap_editor_delete_marker_button" />
     </p>
     <div class="imageomap">
-        <div class="img"><span class="shadow"><img id="thumbnail" class="thumbnail" width="100px" height="80px" /></span></div>
+        <div class="thumbnail"><img id="thumbnail" /></div>
         <div class="info">
             <table>
                 <tbody>
