@@ -19,7 +19,8 @@ var WpImaGeoMapParams = getWpImaGeoMapParams();
  * @return {Object} Marker image.
  */
 var markerImageNormal = ( function() {
-    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker.png', new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
+    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker.png' );
+    image.scaledSize = new google.maps.Size( 28, 28 );
     return function() { return image; };
 } )();
 
@@ -29,7 +30,8 @@ var markerImageNormal = ( function() {
  * @return {Object} Marker image.
  */
 var markerImageSelected = ( function() {
-    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker-select.png', new google.maps.Size( 28, 28 ), new google.maps.Point( 0,0 ), new google.maps.Point( 14, 28 ) );
+    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker-select.png' );
+    image.scaledSize = new google.maps.Size( 28, 28 );
     return function() { return image; };
 } )();
 
