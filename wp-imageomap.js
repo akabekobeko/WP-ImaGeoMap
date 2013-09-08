@@ -375,7 +375,7 @@ function createMapEditor() {
 
     // Create a edit form
     ( function() {
-        var noImageUrl = WpImaGeoMapParams.dir + 'images/noimage.gif';
+        var noImageUrl = WpImaGeoMapParams.dir + 'images/noimage.png';
 
         var title        = $( "#marker_title"     )[ 0 ];
         var url          = $( "#marker_url"       )[ 0 ];
