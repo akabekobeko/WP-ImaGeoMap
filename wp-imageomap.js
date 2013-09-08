@@ -150,7 +150,7 @@ function createMaps() {
 
         // Create a lines
         ( function( lines ) {
-            if( !( lines && lines.length && lines.length > 1 ) ) { return; }
+            if( lines !== 'line' ) { return; }
 
             var max = Math.min( markers.length, lines.length );
             if( max < 2 ) { return; }
@@ -369,7 +369,44 @@ function createMapEditor() {
             markerEditForm.getValue( selectedMarker );
         }
 
-        self.parent.onImaGeoMapShortCode( getShortCode() );
+        function createShortCode() {
+            if( markers.length === 0 ) { return null; }
+
+            function createMapValue() {
+                var center = map.getCenter();
+                return '{zoom:' + map.zoom + ',latitude:' + center.lat() + ',longitude:' + center.lng() + '}';
+            }
+
+            function createMarkerValue( marker ) {
+                function replaceCharRef( str ) {
+                    str = str.replace( /&/g, '&amp;'  );
+                    str = str.replace( /"/g, '&quot;' );
+                    str = str.replace( /'/g, '&#039;' );
+                    str = str.replace( /</g, '&lt;'   );
+                    str = str.replace( />/g, '&gt;'   );
+                    return str;
+                }
+
+                var value = '{name:"' + replaceCharRef( marker.getTitle() ) + '",url:"' + marker.url + '",latitude:' + marker.position.lat() + ',longitude:' + marker.position.lng();
+                if( marker.altitude ) { value += ',altitude:"' + replaceCharRef( marker.altitude ) + '"'; }
+                if( marker.datetime ) { value += ',datetime:"' + replaceCharRef( marker.datetime ) + '"'; }
+                if( marker.address  ) { value += ',address:"'  + replaceCharRef( marker.address  ) + '"'; }
+                if( marker.comment  ) { value += ',comment:"'  + replaceCharRef( marker.comment  ) + '"'; }
+
+                value += "}";
+                return value;
+            }
+
+            var shortcode = '[imageomap]var map=' + createMapValue() + ';var m=[' + createMarkerValue( markers[ 0 ] );
+            for( var index = 1, max =  markers.length; index < max; index++ ) {
+                shortcode += ',' + createMarkerValue( markers[ index ] );
+            }
+
+            shortcode += '];[/imageomap]\n';
+            return shortcode;
+        }
+
+        self.parent.onImaGeoMapShortCode( createShortCode() );
         self.parent.tb_remove();
     }
 
