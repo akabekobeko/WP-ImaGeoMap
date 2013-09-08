@@ -31,11 +31,6 @@ Author URI: http://akabeko.me/
 class WpImaGeoMap
 {
     /**
-     * Setting name of the plug-in to be registered in the database of WordPress.
-     */
-    const OPTION_NAME = "wp_imageomap_options";
-
-    /**
      * Localize text domain.
      */
     const TEXT_DOMAIN = "wp-imageomap";
@@ -47,11 +42,6 @@ class WpImaGeoMap
      * For example, in order to assign a number from 0 to 2 when generating the three maps.
      */
     private $mapNumber = 0;
-
-    /**
-     * Plug-in options.
-     */
-    private $options;
 
     /**
      * Plug-indirectory URL。
@@ -74,7 +64,6 @@ class WpImaGeoMap
     public function __construct()
     {
         $this->pluginDirUrl         = $this->getPluginDirURL();
-        $this->options              = $this->getOption();
         $this->googleMapScriptUrl   = "http://maps.google.com/maps/api/js?sensor=false";
         $this->mapScriptUrl         = "{$this->pluginDirUrl}wp-imageomap.js";
 
@@ -113,28 +102,6 @@ class WpImaGeoMap
         $dirs = explode( DIRECTORY_SEPARATOR, dirname( __FILE__ ) );
         $dir  = array_pop( $dirs ) . "/";
         return  WP_PLUGIN_URL . '/' . $dir;
-    }
-
-    /**
-     * Get a plug-in settings.
-     *
-     * @return Settings.
-     */
-    private function getOption()
-    {
-        $options = get_option( WpImaGeoMap::OPTION_NAME );
-        return ( is_array( $options ) ? $options : $this->getOptionDefalt() );
-    }
-
-    /**
-     * Get a default plug-in settings.
-     *
-     * @return Default settings.
-     */
-    private function getOptionDefalt()
-    {
-        $options = array( "canvas_width" => "100%", "canvas_height" => "350px" );
-        return $options;
     }
 
     /**
