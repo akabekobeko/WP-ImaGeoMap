@@ -5,7 +5,7 @@
 
 ;( function( $ ) {
 // Check jQuery ( Required )
-if( !( $ ) ) { return; }
+if( !$ ) { return; }
 
 /**
  * Script parameters from article page.
@@ -54,10 +54,10 @@ function createMarker( id, map, params ) {
 
     marker.id            = id;
     marker.url           = params.url;
-    marker.altitude      = ( params.altitude == undefined ? '' : params.altitude );
-    marker.datetime      = ( params.datetime == undefined ? '' : params.datetime );
-    marker.address       = ( params.address  == undefined ? '' : params.address  );
-    marker.comment       = ( params.comment  == undefined ? '' : params.comment  );
+    marker.altitude      = ( params.altitude ? params.altitude : '' );
+    marker.datetime      = ( params.datetime ? params.datetime : '' );
+    marker.address       = ( params.address  ? params.address  : '' );
+    marker.comment       = ( params.comment  ? params.comment  : '' );
     marker.thumbnail     = new Image();
     marker.thumbnail.src = params.url;
 
@@ -127,7 +127,7 @@ function createMaps() {
         }
 
         // Create a markers
-        var markers = new Array();
+        var markers = [];
         ( function( infos ) {
             if( !( infos && infos.length && infos.length > 0 ) ) { return; }
 
@@ -155,7 +155,7 @@ function createMaps() {
             var max = Math.min( markers.length, lines.length );
             if( max < 2 ) { return; }
 
-            var path = new Array();
+            var path = [];
             for( var i = 0; i < max; ++i ) {
                 path[ i ] = markers[ i ].position;
             }
@@ -167,7 +167,7 @@ function createMaps() {
 
     // Create a maps
     ( function() {
-        var maps   = new Array();
+        var maps   = [];
         var nextId = 0;
 
         $( 'div.imageomap' ).each( function() {
@@ -206,7 +206,7 @@ function createMapEditor() {
      *
      * @type Array
      */
-    var markers = new Array();
+    var markers = [];
 
     /**
      * Next marker identifier ( 0 to N ).
@@ -225,7 +225,7 @@ function createMapEditor() {
      */
     function addMarker() {
         var url = window.prompt( 'URL', '' );
-        if( url == null || url == '' ) { return; }
+        if( !url ) { return; }
 
         function getFileNameFromUrl( url ) {
             var n = url.lastIndexOf( '/' );
@@ -235,7 +235,7 @@ function createMapEditor() {
         }
 
         function isSelected( marker ) {
-            return ( selectedMarker != null && selectedMarker.id == marker.id );
+            return ( selectedMarker !== null && selectedMarker.id == marker.id );
         }
 
         function setAddress( marker ) {
@@ -294,7 +294,7 @@ function createMapEditor() {
         }
 
         function createNewMarkerFromExif( exif ) {
-            var latlng = exif.latitude == 0 || exif.longitude == 0 ? map.getCenter() : new google.maps.LatLng( exif.latitude, exif.longitude );
+            var latlng = exif.latitude === 0 || exif.longitude === 0 ? map.getCenter() : new google.maps.LatLng( exif.latitude, exif.longitude );
             var marker = createMarker( markerNextId++, map, { url:exif.url, latitude:latlng.lat(), longitude:latlng.lng(), name:getFileNameFromUrl( exif.url ), altitude:exif.altitude, datetime:exif.datetime } );
 
             marker.setDraggable( true );
@@ -323,7 +323,7 @@ function createMapEditor() {
      * Remove a selected marker.
      */
     function removeMarker() {
-        if( selectedMarker == null ) { return; }
+        if( !selectedMarker ) { return; }
 
         for( var index = 0, max = markers.length; index < max; ++index ) {
             if( markers[ index ].id === selectedMarker.id ) {
@@ -332,7 +332,7 @@ function createMapEditor() {
                 markers.splice( index, 1 );
 
                 // Reset marker next id.
-                if( markers.length == 0 ) { markerNextId = 0; }
+                if( markers.length === 0 ) { markerNextId = 0; }
                 
                 selectedMarker = null;
                 markerEditForm.selectMarker( null );
