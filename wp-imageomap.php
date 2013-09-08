@@ -87,7 +87,6 @@ class WpImaGeoMap
         if( is_admin() )
         {
             add_action( "admin_head",                             array( &$this, "onWpHead"         )     );
-            add_action( "admin_menu",                             array( &$this, "onAdminMenu"      )     );
             add_action( "admin_head_media_upload_imageomap_form", array( &$this, "onMediaHead"      )     );
             add_action( "media_buttons",                          array( &$this, "onMediaButtons"   ), 20 );
             add_action( "media_upload_imageomap",                 "media_upload_imageomap"                );
@@ -158,14 +157,6 @@ class WpImaGeoMap
     }
 
     /**
-     * It runs after the basic admin panel menu structure is in place.
-     */
-    public function onAdminMenu()
-    {
-        add_options_page( __( 'WP-ImaGeoMap Option', WpImaGeoMap::TEXT_DOMAIN ), 'WP-ImaGeoMap', 'level_8', basename( __FILE__ ), array( &$this, 'onOptionPage' ) ) ;
-    }
-
-    /**
      * メディアボタンを設定する時に発生します。
      */
     public function onMediaButtons()
@@ -226,7 +217,7 @@ class WpImaGeoMap
     }
 
     /**
-     * メディアボタンから表示したウィンドウのヘッダが読み込まれる時に呼び出されます。
+     * It will be executed when the header of the window that was launched from the media button is loaded.
      */
     public function onMediaHead()
     {
@@ -234,84 +225,36 @@ class WpImaGeoMap
     }
 
     /**
-     * メディアボタンから表示したウィンドウのタブが設定される時に呼び出されます。
+     * It will be executed when the tab of the window that was launched from the media button is set.
      *
-     * @param    $tabs    規定のタブ情報コレクション。
+     * @param $tabs Original tabs.
      *
-     * @return    実際に表示するタブ情報コレクション。
+     * @return New tabs.
      */
     function onModifyMediaTab( $tabs )
     {
-        return array( "imageomap" => __( "ShortCode Editor", WpImaGeoMap::TEXT_DOMAIN ) );
+        return array( 'imageomap' => __( 'ShortCode Editor', WpImaGeoMap::TEXT_DOMAIN ) );
     }
 
     /**
-     * プラグインの設定ページが表示される時に発生します。
-     */
-    public function onOptionPage()
-    {
-        if( $_POST[ "option" ] == "update" )
-        {
-            $this->options[ "canvas_width"  ] = $_POST[ "canvas_width"  ];
-            $this->options[ "canvas_height" ] = $_POST[ "canvas_height" ];
-
-            update_option( WpNicodo::OPTION_NAME, $this->options );
-        }
-
-        $checked      = 'checked="checked"';
-        $is_read_exif = $this->options[ "is_read_exif " ] ? $checked : "";
-
-?>
-    <h2><?php _e( "WP-ImaGeoMap Option", WpImaGeoMap::TEXT_DOMAIN ); ?></h2>
-    <div id="imageomap">
-        <form action="<?php echo $_SERVER[ 'REQUEST_URI' ]; ?>" method="post">
-            <fieldset>
-                <legend><?php _e( "Google Map Size", WpImaGeoMap::TEXT_DOMAIN ); ?></legend>
-                <p>
-                <?php _e( "The size of Google Map put on the posts and pages is changed.", WpImaGeoMap::TEXT_DOMAIN ); ?>
-                </p>
-                <table>
-                    <tbody>
-                        <tr><td><?php _e( "Width : ", WpImaGeoMap::TEXT_DOMAIN ); ?></td><td><input type="text" name="canvas_width" id="canvas_width" size="20" value="<?php echo $this->options[ 'canvas_width' ] ?>" /></td></tr>
-                        <tr><td><?php _e( "Height : ", WpImaGeoMap::TEXT_DOMAIN ); ?></td><td><input type="text" name="canvas_height" id="canvas_height" size="20" value="<?php echo $this->options[ 'canvas_height' ] ?>" /></td></tr>
-                    </tbody>
-                </table>
-            </fieldset>
-            <p class="submit">
-                <input type="submit" value="<?php _e( "Update Options", WpImaGeoMap::TEXT_DOMAIN ); ?>" />
-                <input class="button-primary" type="hidden" name="option" value="update" />
-            </p>
-        </form>
-    </div>
-<?php
-    }
-
-    /**
-     * ショートコードが実行される時に発生します。
+     * It is invoked when a short code execution.
      *
-     * @param    $atts        ショートコードに指定されたパラメータのコレクション。
-     * @param    $content    ショートコードのタグに囲まれたコンテンツ。
+     * @param $atts     Array of shortcode parametrs.
+     * @param $content Content of shortcode.
      *
-     * @return    ショートコードの実行結果。
+     * @return Shortcode results.
      */
     public function onShortCode( $atts, $content )
     {
-        extract( shortcode_atts( array( "width" => "", "height" => "", "line" => "none" ), $atts ) );
+        extract( shortcode_atts( array( 'width' => '100%', 'height' => '350px', 'line' => 'none' ), $atts ) );
 
-        $content      = str_replace( "&#8217;", "'", $content );
-        $canvasWidth  = ( $width  == "" ? $this->options[ "canvas_width"   ] : $width  );
-        $canvasHeight = ( $height == "" ? $this->options[ "canvas_height"  ] : $height );
-        $mapNumber    = $this->mapNumber++;
-
-        // マップ表示領域となる div と、マップ用スクリプトを生成する。
-        // 一つのページに複数のマップが表示される可能性がある為、連番を割り当てる事によってマップを個別に扱うようにしている。
-        // $content に指定されるデータはマップとマーカーの配列の初期化スクリプトとなっているので、そのまま埋め込める。
-        //
-        $text = <<<HTML
+        $content   = str_replace( '&#8217;', "'", $content );
+        $mapNumber = $this->mapNumber++;
+        $text      = <<<HTML
 <div class="imageomap">
 <script type="text/javascript">
 //<![CDATA[
-function imageomap_get_{$mapNumber}(){ {$content} return { map: map, markers: m, line:"{$line}", width:"{$canvasWidth}", height:"{$canvasHeight}" }; }
+function imageomap_get_{$mapNumber}(){ {$content} return { map: map, markers: m, line:"{$line}", width:"{$width}", height:"{$height}" }; }
 //]]
 </script>
 </div>
@@ -454,20 +397,4 @@ if( class_exists( 'WpImaGeoMap' ) )
     }
 }
 
-// アンインストール時のハンドラ登録
-if( function_exists( 'register_uninstall_hook' ) )
-{
-    /**
-     * プラグインのアンインストールが行われる時に発生します。
-     */
-    function onWpImaGeoMapUninstall()
-    {
-        if( class_exists( 'WpImaGeoMap' ) )
-        {
-            delete_option( WpImaGeoMap::OPTION_NAME );
-        }
-    }
-
-    register_uninstall_hook( __FILE__, "onWpImaGeoMapUninstall" );
-}
 ?>
