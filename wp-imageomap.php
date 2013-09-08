@@ -70,9 +70,6 @@ class WpImaGeoMap
         $lang = dirname( plugin_basename( __FILE__ ) ) . "/languages";
         load_plugin_textdomain( WpImaGeoMap::TEXT_DOMAIN, false, $lang );
 
-        wp_register_script( "GoogleMap",   $this->googleMapScriptUrl   );
-        wp_register_script( "WpImaGeoMap", $this->mapScriptUrl         );
-
         if( is_admin() )
         {
             add_action( "admin_head",                             array( &$this, "onWpHead"         )     );
@@ -88,7 +85,6 @@ class WpImaGeoMap
         }
 
         add_filter( "admin_footer", array( &$this, "onAddShortCode" ) );
-
         add_shortcode( "imageomap", array( &$this, "onShortCode" ) );
     }
 
@@ -250,27 +246,9 @@ HTML;
      */
     public function onWpPrintScripts()
     {
-        wp_enqueue_script( "jquery" );
-        wp_enqueue_script( "GoogleMap" );
-
-        add_filter( "script_loader_src", array( $this,"onWpSriptSrcCleanup" ) );
-    }
-
-    /**
-     * スクリプトの URL を処理する為に発生します。
-     *
-     * @param    $src    スクリプトの URL。
-     *
-     * @return    処理後の URL。
-     */
-    public function onWpSriptSrcCleanup( $src )
-    {
-        if( strstr( $src, $this->googleMapScriptUrl ) )
-        {
-            return $this->trimScript( $src );
-        }
-
-        return $src;
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'googlemap',   $this->googleMapScriptUrl );
+        wp_enqueue_script( 'wpimageomap', $this->mapScriptUrl       );
     }
 
     /**
@@ -292,7 +270,7 @@ function getWpImaGeoMapParams(){return{mode:"edit",dir:"{$this->pluginDirUrl}"};
 <script type="text/javascript" src="{$this->mapScriptUrl}"></script>
 HTML;
         }
-        else
+        else if( $this->mapNumber > 0 )
         {
             $text = array(
                 "Title"     => __( "Title : ",     WpImaGeoMap::TEXT_DOMAIN ),
@@ -312,7 +290,6 @@ HTML;
 function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}", text:{title:"{$text[ "Title" ]}",datetime:"{$text[ "DateTime" ]}",address:"{$text[ "Address" ]}",latitude:"{$text[ "Latitude" ]}",longitude:"{$text[ "Longitude" ]}",altitude:"{$text[ "Altitude" ]}"}}; }
 //]]
 </script>
-<script type="text/javascript" src="{$this->mapScriptUrl}"></script>
 HTML;
         }
     }

@@ -11,29 +11,21 @@ if( !$ ) { return; }
  * Script parameters from article page.
  * @type {Object}
  */
-var WpImaGeoMapParams = getWpImaGeoMapParams();
+var WpImaGeoMapParams = null;
 
 /**
  * Get normal marker image.
  *
  * @return {Object} Marker image.
  */
-var markerImageNormal = ( function() {
-    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker.png' );
-    image.scaledSize = new google.maps.Size( 28, 28 );
-    return function() { return image; };
-} )();
+var markerImageNormal = null;
 
 /**
  * Get selected marker image.
  *
  * @return {Object} Marker image.
  */
-var markerImageSelected = ( function() {
-    var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker-select.png' );
-    image.scaledSize = new google.maps.Size( 28, 28 );
-    return function() { return image; };
-} )();
+var markerImageSelected = null;
 
 /**
  * Create a marker.
@@ -502,6 +494,21 @@ function createMapEditor() {
 
 // Initialize
 $( document ).ready( function() {
+    WpImaGeoMapParams = getWpImaGeoMapParams();
+    if( !WpImaGeoMapParams ) { return; }
+
+    markerImageNormal = ( function() {
+        var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker.png' );
+        image.scaledSize = new google.maps.Size( 28, 28 );
+        return function() { return image; };
+    } )();
+
+    markerImageSelected = ( function() {
+        var image = new google.maps.MarkerImage( WpImaGeoMapParams.dir + 'images/marker-select.png' );
+        image.scaledSize = new google.maps.Size( 28, 28 );
+        return function() { return image; };
+    } )();
+
     if( WpImaGeoMapParams.mode == 'edit' ) {
         createMapEditor();
     } else {
