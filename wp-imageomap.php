@@ -175,7 +175,7 @@ class WpImaGeoMap
         $id     = (int)( 0 == $post_ID ? $temp_ID : $post_ID );
         $iframe = apply_filters( "media_upload_imageomap_iframe_src", "media-upload.php?post_id={$id}&amp;type=imageomap&amp;tab=imageomap" );
         $title  = "WP-ImaGeoMap";
-        $link   = "<a href=\"{$iframe}&amp;TB_iframe=true&amp;keepThis=true&amp;height=500&amp;width=640\" class=\"thickbox\" title=\"{$title}\"><img src=\"{$this->pluginDirUrl}images/button.png\" alt=\"{$title}\" /></a>\n";
+        $link   = "<a href=\"{$iframe}&amp;TB_iframe=true&amp;keepThis=true&amp;height=500&amp;width=640\" class=\"thickbox\" title=\"{$title}\"><img src=\"{$this->pluginDirUrl}images/button.png\" alt=\"{$title}\" style=\"width:16px;\" /></a>\n";
 
         echo $link;
     }
