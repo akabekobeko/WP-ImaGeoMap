@@ -1,5 +1,19 @@
 # WP-ImaGeoMap
 
-このソフトウェアは、画像と Google Map を記事に貼り付ける為の WordPress 用プラグインです。詳細は以下のページを参照してください。
+It is WordPress plug-in for insertion in an article by combining a map and image.
 
-[WP-ImaGeoMap - アカベコマイリ](http://akabeko.me/blog/software/wp-imageomap/)
+## Using
+
+For information on how to use the plug-in, I have described in the following pages.
+
+* [WP-ImaGeoMap - AKABEKOMAIRI](http://akabeko.me/blog/software/wp-imageomap/)
+
+## Licence
+
+* [GNU GENERAL PUBLIC LICENSE Version 2](LICENSE.txt)
+
+## Development
+
+Managed by Redmine development information.
+
+* [WP-ImaGeoMap - Redmine](http://akabeko.me/projects/projects/wp-imageomap)
