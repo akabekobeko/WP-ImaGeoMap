@@ -2,9 +2,13 @@
 
 It is WordPress plug-in for insertion in an article by combining a map and image.
 
-## Using
+## How to use
 
-For information on how to use the plug-in, I have described in the following pages.
+1. Show me the post page
+2. Press the Wp-ImaGeoMap (looks like a marker) from the media button
+3. Edit the data in the editor window
+4. Press the 'Insert into Post' button
+5. Short code will be inserted into the post
 
 * [WP-ImaGeoMap - AKABEKOMAIRI](http://akabeko.me/blog/software/wp-imageomap/)
 
