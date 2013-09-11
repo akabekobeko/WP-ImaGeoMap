@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-ImaGeoMap Ver.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-18 18:13+0900\n"
+"POT-Creation-Date: 2013-09-12 00:32+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Akabeko\n"
 "Language-Team: Akabeko\n"
@@ -16,82 +16,76 @@ msgstr ""
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wp-imageomap.php:158 ../wp-imageomap.php:258
-msgid "WP-ImaGeoMap Option"
-msgstr "WP-ImaGeoMap の設定"
-
-#: ../wp-imageomap.php:185
+#: ../wp-imageomap.php:146
 msgid "Add Image"
 msgstr "新しい画像を追加"
 
-#: ../wp-imageomap.php:186
+#: ../wp-imageomap.php:147
 msgid "Show Marker"
 msgstr "マーカーの位置を表示"
 
-#: ../wp-imageomap.php:187
+#: ../wp-imageomap.php:148
 msgid "Delete Marker"
 msgstr "マーカーを削除"
 
-#: ../wp-imageomap.php:195
+#: ../wp-imageomap.php:156
 msgid "Name : "
 msgstr "名前 : "
 
-#: ../wp-imageomap.php:196
+#: ../wp-imageomap.php:157
 msgid "Image : "
 msgstr "画像 : "
 
-#: ../wp-imageomap.php:199 ../wp-imageomap.php:382
+#: ../wp-imageomap.php:160 ../wp-imageomap.php:277
 msgid "DateTime : "
 msgstr "日時 : "
 
-#: ../wp-imageomap.php:200 ../wp-imageomap.php:383
+#: ../wp-imageomap.php:161 ../wp-imageomap.php:278
 msgid "Address : "
 msgstr "住所 : "
 
-#: ../wp-imageomap.php:203 ../wp-imageomap.php:384
+#: ../wp-imageomap.php:164 ../wp-imageomap.php:279
 msgid "Latitude : "
 msgstr "緯度 : "
 
-#: ../wp-imageomap.php:204 ../wp-imageomap.php:385
+#: ../wp-imageomap.php:165 ../wp-imageomap.php:280
 msgid "Longitude : "
 msgstr "経度 : "
 
-#: ../wp-imageomap.php:205 ../wp-imageomap.php:386
+#: ../wp-imageomap.php:166 ../wp-imageomap.php:281
 msgid "Altitude : "
 msgstr "標高 : "
 
-#: ../wp-imageomap.php:213
+#: ../wp-imageomap.php:174
 msgid "EXIF information is read from the image."
 msgstr "画像追加時に EXIF 情報を読み込む"
 
-#: ../wp-imageomap.php:215
+#: ../wp-imageomap.php:176
 msgid "Insert into Post"
 msgstr "投稿に挿入"
 
-#: ../wp-imageomap.php:238
+#: ../wp-imageomap.php:199
 msgid "ShortCode Editor"
 msgstr "ショートコードの作成"
 
-#: ../wp-imageomap.php:262
-msgid "Google Map Size"
-msgstr "Google Map のサイズ"
-
-#: ../wp-imageomap.php:264
-msgid "The size of Google Map put on the posts and pages is changed."
-msgstr "記事やページに貼り付ける Google Map のサイズを変更します。"
-
-#: ../wp-imageomap.php:268
-msgid "Width : "
-msgstr "幅 : "
-
-#: ../wp-imageomap.php:269
-msgid "Height : "
-msgstr "高さ : "
-
-#: ../wp-imageomap.php:274
-msgid "Update Options"
-msgstr "設定を更新する"
-
-#: ../wp-imageomap.php:381
+#: ../wp-imageomap.php:276
 msgid "Title : "
 msgstr "題名 : "
+
+#~ msgid "WP-ImaGeoMap Option"
+#~ msgstr "WP-ImaGeoMap の設定"
+
+#~ msgid "Google Map Size"
+#~ msgstr "Google Map のサイズ"
+
+#~ msgid "The size of Google Map put on the posts and pages is changed."
+#~ msgstr "記事やページに貼り付ける Google Map のサイズを変更します。"
+
+#~ msgid "Width : "
+#~ msgstr "幅 : "
+
+#~ msgid "Height : "
+#~ msgstr "高さ : "
+
+#~ msgid "Update Options"
+#~ msgstr "設定を更新する"
