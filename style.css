@@ -15,7 +15,7 @@
 .imageomap .thumbnail img {
     width: 128px;
     border: 4px solid #FFF;
-    background: #bdc3c7 none;
+    background: none #bdc3c7;
     box-shadow: 0 1px 2px #444;
 }
 
@@ -25,14 +25,39 @@
 }
 
 .imageomap .title {
-    font-weight: bold;
-    text-align:left;
     float:left;
+    text-align:left;
+    font-weight: bold;
 }
 
 .imageomap .datetime {
-    background:none; font-size:0.8em;
+    float: right;
+    margin: 0 8px 0 0;
     text-align: right;
+    font-size:0.8em;
+}
+
+.imageomap .toggle_detail {
+    float: right;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: none #34495e;
+    color: #ecf0f1;
+    text-align: center;
+    font-weight: bold;
+    font-size:14px;
+}
+
+.imageomap .detail {
+    padding: 8px;
+    border-radius: 4px;
+    background: none #ecf0f1;
+    font-size:0.8em;
+}
+
+.imageomap .detail-title {
+    font-weight: bold;
 }
 
 .imageomap .clear {

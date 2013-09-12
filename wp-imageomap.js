@@ -79,9 +79,34 @@ function createMaps() {
                         )
                     )
                     .append( $( '<div>' ).addClass( 'info' )
+                        .append( $( '<span>' )
+                            .addClass( 'toggle_detail' )
+                            .text( 'i' )
+                            .click( function() {
+                                infoArea.div.find( '.detail' ).toggle();
+                            } )
+                        )
                         .append( $( '<div>' ).addClass( 'title'    ) )
                         .append( $( '<div>' ).addClass( 'datetime' ) )
                         .append( $( '<div>' ).addClass( 'clear'    ) )
+                        .append( $( '<div>' ).addClass( 'detail'   ).hide()
+                            .append( $('<div>').addClass( 'address'   )
+                                .append( $( '<span>' ).addClass( 'detail-title' ).text( WpImaGeoMapParams.text.address ) )
+                                .append( $( '<span>' ).addClass( 'detail-value' ) )
+                            )
+                            .append( $('<div>').addClass( 'latitude'  )
+                                .append( $( '<span>' ).addClass( 'detail-title' ).text( WpImaGeoMapParams.text.latitude ) )
+                                .append( $( '<span>' ).addClass( 'detail-value' ) )
+                            )
+                            .append( $('<div>').addClass( 'longitude' )
+                                .append( $( '<span>' ).addClass( 'detail-title' ).text( WpImaGeoMapParams.text.longitude ) )
+                                .append( $( '<span>' ).addClass( 'detail-value' ) )
+                            )
+                            .append( $('<div>').addClass( 'altitude'  )
+                                .append( $( '<span>' ).addClass( 'detail-title' ).text( WpImaGeoMapParams.text.altitude ) )
+                                .append( $( '<span>' ).addClass( 'detail-value' ) )
+                            )
+                        )
                         .append( $( '<div>' ).addClass( 'comment'  ) )
                     )
                     .append( $( '<div>' ).addClass( 'clear' ) );
@@ -95,6 +120,11 @@ function createMaps() {
                     this.div.find( '.title'         ).text( marker.getTitle() );
                     this.div.find( '.datetime'      ).text( marker.datetime ? marker.datetime : '' );
                     this.div.find( '.comment'       ).text( marker.comment );
+
+                    this.div.find( '.detail > .address   > .detail-value' ).text( marker.address ? marker.address : '' );
+                    this.div.find( '.detail > .latitude  > .detail-value' ).text( marker.getPosition().lat() );
+                    this.div.find( '.detail > .longitude > .detail-value' ).text( marker.getPosition().lng() );
+                    this.div.find( '.detail > .altitude  > .detail-value' ).text( marker.altitude ? marker.altitude : '' );
                 }
             };
 
