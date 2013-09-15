@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP-ImaGeoMap Ver.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-12 00:32+0900\n"
+"POT-Creation-Date: 2013-09-15 17:13+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Akabeko\n"
 "Language-Team: Akabeko\n"
@@ -16,59 +16,59 @@ msgstr ""
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../wp-imageomap.php:146
+#: ../wp-imageomap.php:142
 msgid "Add Image"
 msgstr "新しい画像を追加"
 
-#: ../wp-imageomap.php:147
+#: ../wp-imageomap.php:143
 msgid "Show Marker"
 msgstr "マーカーの位置を表示"
 
-#: ../wp-imageomap.php:148
+#: ../wp-imageomap.php:144
 msgid "Delete Marker"
 msgstr "マーカーを削除"
 
-#: ../wp-imageomap.php:156
+#: ../wp-imageomap.php:152
 msgid "Name : "
 msgstr "名前 : "
 
-#: ../wp-imageomap.php:157
+#: ../wp-imageomap.php:153
 msgid "Image : "
 msgstr "画像 : "
 
-#: ../wp-imageomap.php:160 ../wp-imageomap.php:277
+#: ../wp-imageomap.php:156 ../wp-imageomap.php:273
 msgid "DateTime : "
 msgstr "日時 : "
 
-#: ../wp-imageomap.php:161 ../wp-imageomap.php:278
+#: ../wp-imageomap.php:157 ../wp-imageomap.php:274
 msgid "Address : "
 msgstr "住所 : "
 
-#: ../wp-imageomap.php:164 ../wp-imageomap.php:279
+#: ../wp-imageomap.php:160 ../wp-imageomap.php:275
 msgid "Latitude : "
 msgstr "緯度 : "
 
-#: ../wp-imageomap.php:165 ../wp-imageomap.php:280
+#: ../wp-imageomap.php:161 ../wp-imageomap.php:276
 msgid "Longitude : "
 msgstr "経度 : "
 
-#: ../wp-imageomap.php:166 ../wp-imageomap.php:281
+#: ../wp-imageomap.php:162 ../wp-imageomap.php:277
 msgid "Altitude : "
 msgstr "標高 : "
 
-#: ../wp-imageomap.php:174
+#: ../wp-imageomap.php:170
 msgid "EXIF information is read from the image."
 msgstr "画像追加時に EXIF 情報を読み込む"
 
-#: ../wp-imageomap.php:176
+#: ../wp-imageomap.php:172
 msgid "Insert into Post"
 msgstr "投稿に挿入"
 
-#: ../wp-imageomap.php:199
+#: ../wp-imageomap.php:195
 msgid "ShortCode Editor"
 msgstr "ショートコードの作成"
 
-#: ../wp-imageomap.php:276
+#: ../wp-imageomap.php:272
 msgid "Title : "
 msgstr "題名 : "
 

@@ -101,26 +101,22 @@ class WpImaGeoMap
     }
 
     /**
-     * ショートコードを挿入する為のスクリプトをページに埋め込みます。
+     * Embed the page a script that can be used to insert a short code.
      */
     public function onAddShortCode()
     {
-        // 投稿の編集画面だけを対象とする
         if( strpos( $_SERVER[ "REQUEST_URI" ], "post.php"     ) ||
             strpos( $_SERVER[ "REQUEST_URI" ], "post-new.php" ) ||
             strpos( $_SERVER[ "REQUEST_URI" ], "page-new.php" ) ||
             strpos( $_SERVER[ "REQUEST_URI" ], "page.php"     ) )
         {
-            // ショートコードの編集を終えた時、wp-imageomap.js から以下の関数を呼び出す事で、
-            // 生成されたショートコードの内容をテキストエリアに挿入できる。
-            // edInsertContent は wp-imageomap.js から呼び出せないので、self.parent.onImaGeoMapShortCode( "ショートコード" ) のように呼び出す。
-            //
+            // edInsertContent will not be called from wp-imageomap.js, Call self.parent.onImaGeoMapShortCode( "SHORTCODE" ).
             echo "<script type=\"text/javascript\">\n//<![CDATA\nfunction onImaGeoMapShortCode( value ) { edInsertContent( edCanvas, value ); }\n//]]>\n</script>\n";
         }
     }
 
     /**
-     * メディアボタンを設定する時に発生します。
+     * It is executed when you set the media button.
      */
     public function onMediaButtons()
     {
@@ -135,7 +131,7 @@ class WpImaGeoMap
     }
 
     /**
-     * メディアボタンから起動されたダイアログの内容を出力する為に発生します。
+     * Output the contents of the dialog that is invoked from the media button.
      */
     public function onMediaButtonPage()
     {
@@ -226,7 +222,7 @@ HTML;
     }
 
     /**
-     * フッター部分が設定される時に発生します。
+     * It is called when the footer part is set.
      */
     public function onWpFoot()
     {
@@ -234,7 +230,7 @@ HTML;
     }
 
     /**
-     * ヘッダー部分が設定される時に発生します。
+     * It is called when the header part is set.
      */
     public function onWpHead()
     {
@@ -242,7 +238,7 @@ HTML;
     }
 
     /**
-     * WordPress のスクリプト出力が行われる時に発生します。
+     * It is called when the script output of WordPress is performed.
      */
     public function onWpPrintScripts()
     {
@@ -252,9 +248,9 @@ HTML;
     }
 
     /**
-     * WP-ImaGeoMap 用の JavaScript を設定します。
+     * Embed the page JavaScript in your plug-ins.
      *
-     * @param    $isEdit    編集モードなら true。それ以外は false。省略時の規定値は false。
+     * @param $isEdit True if edit mode. False otherwise. Specified value of default to false.
      */
     private function setScript( $isEdit = false )
     {
@@ -293,30 +289,17 @@ function getWpImaGeoMapParams(){return{mode:"normal",dir:"{$this->pluginDirUrl}"
 HTML;
         }
     }
-
-    /**
-     * wp_enqueue_script によって登録されたスクリプトの URL の末尾に付く、余計な文字列を取り除きます。
-     *
-     * @param    $src    スクリプトの URL。
-     *
-     * @return    処理後の URL。
-     */
-    private function trimScript( $src )
-    {
-        return preg_replace( "/(\?|\&|\&(amp|#038);)ver=.*$/i", "", $src );
-    }
 }
 
-// プラグインのインスタンス生成
+// Create a plug-in instance
 if( class_exists( 'WpImaGeoMap' ) )
 {
     $wpImaGeoMap = new WpImaGeoMap();
 
-    // 以下の関数は管理画面限定
     if( is_admin() )
     {
         /**
-         * メディアボタンからダイアログが起動された時に呼び出されます。
+         * Executed when a dialog is launched from the media button.
          */
         function media_upload_imageomap()
         {
@@ -324,7 +307,7 @@ if( class_exists( 'WpImaGeoMap' ) )
         }
 
         /**
-         * メディアボタンから起動されたダイアログの内容を出力する為に呼び出されます。
+         * Output the contents of the dialog that is invoked from the media button.
          */
         function media_upload_imageomap_form()
         {
