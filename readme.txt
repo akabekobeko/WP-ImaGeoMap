@@ -59,12 +59,30 @@ Optional parameters is as follows.
 
 == Changelog ==
 
-= 1.2 =
+= 1.2.0 =
 
 * Fixed: That marker does not appear
 * Fixed: Script error that occurred in the jQuery plug-in
 * Fixed: Warning by WP_DEBUG
 * Updated: Suppor for Retina display a UI
 * Updated: UI parts design
+
+= 1.1.0 =
+
+* Updated: Add the settings that draw a line between markers
+* Updated: Delayed timing to read the page to complete the map generation
+* Updated: Do not show data if JavaScript is disabled
+
+= 1.0.2 =
+
+* Fixed: Removed the single quotes from property name of a JavaScript object that output
+
+= 1.0.1 =
+
+* Fixed: The change in the method getCenter get_center of Google Map API
+
+= 1.0.0 =
+
+* First release
 
 == Arbitrary section ==
