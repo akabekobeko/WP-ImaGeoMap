@@ -4,9 +4,29 @@
 
 ## 使い方
 
-プラグインの使い方については、以下のページに解説しています。
+1. 投稿ページを表示します
+2. メディア ボタン（マーカーのような画像です）を押します
+3. 編集ダイアログでデータを作成します
+4. 「投稿に挿入」ボタンを押します
+5. 記事にショートコードが挿入されます
+
+プラグインの詳細については、以下のページに解説しています。
 
 * [WP-ImaGeoMap - アカベコマイリ](http://akabeko.me/blog/software/wp-imageomap/)
+
+## スクリーンショット
+
+### WP-ImaGeoMap
+
+![WP-ImaGeoMap](screenshot-1.png)
+
+### メディア ボタン
+
+![WP-ImaGeoMap](screenshot-2.png)
+
+### 編集
+
+![WP-ImaGeoMap](screenshot-3.png)
 
 ## ライセンス
 

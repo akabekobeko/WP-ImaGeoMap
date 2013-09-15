@@ -53,9 +53,9 @@ Optional parameters is as follows.
 
 == Screenshots ==
 
+1. WP-ImaGeoMap
 1. Press the WP-ImaGeoMap (looks like a marker) from the media button
 1. Editor window
-1. WP-ImaGeoMap
 
 == Changelog ==
 

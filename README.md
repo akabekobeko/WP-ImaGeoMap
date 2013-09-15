@@ -10,7 +10,23 @@ It is WordPress plug-in for insertion in an article by combining a map and image
 4. Press the 'Insert into Post' button
 5. Short code will be inserted into the post
 
+More information refer to the following pages.
+
 * [WP-ImaGeoMap - AKABEKOMAIRI](http://akabeko.me/blog/software/wp-imageomap/)
+
+## Screenshots
+
+### WP-ImaGeoMap
+
+![WP-ImaGeoMap](screenshot-1.png)
+
+### Media button
+
+![WP-ImaGeoMap](screenshot-2.png)
+
+### Editor
+
+![WP-ImaGeoMap](screenshot-3.png)
 
 ## Licence
 
