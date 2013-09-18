@@ -524,6 +524,8 @@ function createMapEditor() {
 
 // Initialize
 $( document ).ready( function() {
+    if( typeof getWpImaGeoMapParams != 'function' ) { return; }
+
     WpImaGeoMapParams = getWpImaGeoMapParams();
     if( !WpImaGeoMapParams ) { return; }
 
