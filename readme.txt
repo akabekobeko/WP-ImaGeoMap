@@ -59,11 +59,15 @@ Optional parameters is as follows.
 
 == Changelog ==
 
+= 1.2.1 =
+
+* Fixed Bugs: Script error occurs Shortcodes WP-ImaGeoMap does not exist
+
 = 1.2.0 =
 
-* Fixed: That marker does not appear
-* Fixed: Script error that occurred in the jQuery plug-in
-* Fixed: Warning by WP_DEBUG
+* Fixed Bugs: That marker does not appear
+* Fixed Bugs: Script error that occurred in the jQuery plug-in
+* Fixed Bugs: Warning by WP_DEBUG
 * Updated: Suppor for Retina display a UI
 * Updated: UI parts design
 
@@ -75,11 +79,11 @@ Optional parameters is as follows.
 
 = 1.0.2 =
 
-* Fixed: Removed the single quotes from property name of a JavaScript object that output
+* Fixed Bugs: Removed the single quotes from property name of a JavaScript object that output
 
 = 1.0.1 =
 
-* Fixed: The change in the method getCenter get_center of Google Map API
+* Fixed Bugs: The change in the method getCenter get_center of Google Map API
 
 = 1.0.0 =
 
